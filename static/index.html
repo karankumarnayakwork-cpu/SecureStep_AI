@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure Step AI — Fall Detection System</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="#00f5d4" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="8" stroke="#00f5d4" stroke-width="1.5"/>
+            <line x1="2" y1="20" x2="12" y2="20" stroke="#00f5d4" stroke-width="1.5"/>
+            <line x1="28" y1="20" x2="38" y2="20" stroke="#00f5d4" stroke-width="1.5"/>
+            <line x1="20" y1="2" x2="20" y2="12" stroke="#00f5d4" stroke-width="1.5"/>
+            <line x1="20" y1="28" x2="20" y2="38" stroke="#00f5d4" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="3" fill="#00f5d4"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-name">SECURE STEP AI</h1>
+          <p class="brand-sub">AI Fall Detection System</p>
+        </div>
+      </div>
+      <div class="status-bar">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">IDLE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+
+  <!-- PAGE 1: Landing -->
+  <div id="page-landing">
+
+<!-- Landing Hero -->
+<section class="landing" id="landing">
+  <div class="landing-inner">
+    <div class="landing-hero">
+      <div class="landing-logo">
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="36" stroke="#00f5d4" stroke-width="1.5" opacity="0.3"/>
+          <circle cx="40" cy="40" r="24" stroke="#00f5d4" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="40" cy="40" r="10" stroke="#00f5d4" stroke-width="1.5"/>
+          <line x1="4" y1="40" x2="20" y2="40" stroke="#00f5d4" stroke-width="1.5"/>
+          <line x1="60" y1="40" x2="76" y2="40" stroke="#00f5d4" stroke-width="1.5"/>
+          <line x1="40" y1="4" x2="40" y2="20" stroke="#00f5d4" stroke-width="1.5"/>
+          <line x1="40" y1="60" x2="40" y2="76" stroke="#00f5d4" stroke-width="1.5"/>
+          <circle cx="40" cy="40" r="4" fill="#00f5d4"/>
+        </svg>
+      </div>
+      <h2 class="landing-title">SECURE STEP AI</h2>
+      <p class="landing-tagline">Real-time fall detection powered by YOLOv8 pose estimation.<br/>Protecting people. Logging every event.</p>
+      <button class="btn btn-launch" onclick="launchApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        LAUNCH DETECTION
+      </button>
+    </div>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 2l4 4-4 4"/></svg>
+        </div>
+        <h3>Video Analysis</h3>
+        <p>Upload any video file. Our AI processes every frame and delivers an annotated output with all fall events marked.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M3 9a2 2 0 012-2h1l2-3h8l2 3h1a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        </div>
+        <h3>Live Camera</h3>
+        <p>Stream your webcam feed through the detection engine. Falls are flagged in real-time with instant log entries.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <h3>Fall Log</h3>
+        <p>Every detected fall is timestamped and stored. Filter by source, review history, and export for reporting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div><!-- /page-landing -->
+
+  <!-- PAGE 2: App -->
+  <div id="page-app" style="display:none">
+    <div class="app-nav">
+      <button class="btn-back" onclick="goHome()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        BACK
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="video" onclick="switchTab('video', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 2l4 4-4 4"/></svg>
+        VIDEO UPLOAD
+      </button>
+      <button class="tab" data-tab="camera" onclick="switchTab('camera', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 9a2 2 0 012-2h1l2-3h8l2 3h1a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        CAMERA FEED
+      </button>
+      <button class="tab" data-tab="logs" onclick="switchTab('logs', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        FALL LOG
+        <span class="log-badge" id="logBadge">0</span>
+      </button>
+    </div>
+
+    <!-- VIDEO TAB -->
+    <div class="tab-content active" id="tab-video">
+      <div class="panel-grid-3">
+
+        <!-- Upload Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">UPLOAD VIDEO</span>
+            <span class="panel-hint">MP4 / AVI / MOV</span>
+          </div>
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('videoInput').click()">
+            <input type="file" id="videoInput" accept="video/*" style="display:none" onchange="handleVideoSelect(event)"/>
+            <div class="drop-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect x="8" y="14" width="48" height="36" rx="4" stroke="#00f5d4" stroke-width="2"/>
+                <path d="M26 26l12 6-12 6V26z" fill="#00f5d4"/>
+              </svg>
+            </div>
+            <p class="drop-text" id="dropText">DROP VIDEO HERE</p>
+            <p class="drop-sub">or click to browse</p>
+          </div>
+          <button class="btn btn-primary" id="processBtn" onclick="processVideo()" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            PROCESS VIDEO
+          </button>
+          <div class="progress-wrap" id="progressWrap" style="display:none">
+            <div class="progress-label">
+              <span>PROCESSING</span>
+              <span id="progressStatus">Analyzing frames...</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+        </div>
+
+        <!-- Live Detection Feed -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">DETECTION FEED</span>
+            <span class="rec-indicator" id="videoRecIndicator" style="display:none">
+              <span class="rec-dot"></span> PROCESSING
+            </span>
+          </div>
+          <div class="camera-container">
+            <img id="videoDetectionFeed" style="display:none; width:100%; height:100%; object-fit:contain;" src="" alt=""/>
+            <div class="camera-overlay" id="videoFeedOverlay">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="12" width="40" height="40" rx="3" stroke="#00f5d4" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <path d="M20 32h8M28 28l-8 4 8 4" stroke="#00f5d4" stroke-width="1.5"/>
+              </svg>
+              <p>Live feed appears during processing</p>
+            </div>
+          </div>
+          <div class="detection-stats">
+            <div class="stat">
+              <span class="stat-label">FRAME</span>
+              <span class="stat-val" id="videoFrameCount">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">TOTAL</span>
+              <span class="stat-val" id="videoTotalFrames">—</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">FALLS</span>
+              <span class="stat-val danger" id="videoFallCount">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">ANALYSIS RESULT</span>
+          </div>
+          <div class="result-area" id="videoResult">
+            <div class="placeholder-text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              <p>Upload and process a video<br/>to see detection results</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CAMERA TAB -->
+    <div class="tab-content" id="tab-camera">
+      <div class="panel-grid">
+        <!-- Camera Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">LIVE CAMERA</span>
+            <span class="rec-indicator" id="recIndicator" style="display:none">
+              <span class="rec-dot"></span> LIVE
+            </span>
+          </div>
+          <div class="camera-container">
+            <video id="cameraVideo" autoplay muted playsinline></video>
+            <canvas id="cameraCanvas" style="display:none"></canvas>
+            <div class="camera-overlay" id="cameraOverlay">
+              <svg viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="20" stroke="#00f5d4" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <circle cx="32" cy="32" r="5" fill="#00f5d4" opacity="0.4"/>
+              </svg>
+              <p>Camera not started</p>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="startCamBtn" onclick="startCamera()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 9a2 2 0 012-2h1l2-3h8l2 3h1a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+              START CAMERA
+            </button>
+            <button class="btn btn-danger" id="stopCamBtn" onclick="stopCamera()" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"/></svg>
+              STOP
+            </button>
+          </div>
+        </div>
+
+        <!-- Detection Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">DETECTION FEED</span>
+          </div>
+          <div class="camera-container">
+            <img id="detectionFeed" class="detection-feed" src="" alt="" style="display:none"/>
+            <div class="camera-overlay" id="detectionOverlay">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="12" width="40" height="40" rx="3" stroke="#00f5d4" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <path d="M20 32h8M28 28l-8 4 8 4" stroke="#00f5d4" stroke-width="1.5"/>
+              </svg>
+              <p>Detection output appears here</p>
+            </div>
+          </div>
+          <div class="detection-stats">
+            <div class="stat">
+              <span class="stat-label">FRAMES SENT</span>
+              <span class="stat-val" id="frameCount">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">FALLS DETECTED</span>
+              <span class="stat-val danger" id="fallCount">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">FPS</span>
+              <span class="stat-val" id="fpsDisplay">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGS TAB -->
+    <div class="tab-content" id="tab-logs">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">FALL EVENT LOG</span>
+          <button class="btn btn-sm btn-danger" onclick="clearLogs()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+            CLEAR LOGS
+          </button>
+        </div>
+        <div class="log-stats-row">
+          <div class="log-stat-card">
+            <span class="log-stat-num" id="totalFalls">0</span>
+            <span class="log-stat-label">TOTAL FALLS</span>
+          </div>
+          <div class="log-stat-card">
+            <span class="log-stat-num" id="todayFalls">0</span>
+            <span class="log-stat-label">TODAY</span>
+          </div>
+          <div class="log-stat-card">
+            <span class="log-stat-num" id="videoFalls">0</span>
+            <span class="log-stat-label">FROM VIDEO</span>
+          </div>
+          <div class="log-stat-card">
+            <span class="log-stat-num" id="camFalls">0</span>
+            <span class="log-stat-label">FROM CAMERA</span>
+          </div>
+        </div>
+        <div class="log-table-wrap">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>ID</th><th>DATE</th><th>TIME</th><th>SOURCE</th><th>PERSON</th><th>MESSAGE</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody">
+              <tr class="empty-row"><td colspan="6">No fall events recorded</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-app -->
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
